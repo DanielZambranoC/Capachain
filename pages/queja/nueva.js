@@ -14,6 +14,9 @@ const options = [
 class RegistroNuevaQueja extends Component {
   state = {
       descripcion: '',
+      nombre:'',
+      correo:'',
+      fecha:'0000-00-00',
       errorMessage: '',
       loading: false
   };
@@ -26,7 +29,7 @@ class RegistroNuevaQueja extends Component {
     try {
     const accounts = await web3.eth.getAccounts();
     await factory.methods
-        .nuevaQueja(this.state.descripcion)
+        .registrarQueja(this.state.descripcion,this.state.nombre,this.state.correo,this.state.fecha)
         .send({
             from: accounts[0]
         });
@@ -48,8 +51,12 @@ class RegistroNuevaQueja extends Component {
             <h3>Registro de Quejas</h3>
             <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage}>
                 <Form.Group widths='equal'>
-                <Form.Input fluid label='Nombre' placeholder='Nombre' />
-                <Form.Input fluid label='Correo-E' placeholder='Correo-E' />
+                <Form.Input fluid label='Nombre' placeholder='Nombre' 
+                    value={this.state.nombre} 
+                    onChange={event => this.setState({nombre: event.target.value})} />
+                <Form.Input fluid label='Correo-E' placeholder='Correo-E'
+                    value={this.state.correo} 
+                    onChange={event => this.setState({correo: event.target.value})} />
                 <Form.Select fluid label='Tipo de Queja' options={options} placeholder='Seleccione' />
                 </Form.Group>
                 <Form.TextArea label='Queja' placeholder='Describa la queja...'

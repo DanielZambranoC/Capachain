@@ -19,7 +19,7 @@
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
-    "/queja/nueva": [
+    "/queja/detalle": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ]

@@ -6,7 +6,7 @@ import { Link } from '../routes';
 
 class CAPAIndex extends Component {
     static async getInitialProps() {
-        const quejas = await factory.methods.quejasRegistradas().call();
+        const quejas = await factory.methods.listadoQuejas().call();
 
         return { quejas };
     }

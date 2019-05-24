@@ -1,67 +1,45 @@
 pragma solidity >=0.4.17 <0.6.0;
 
-contract CAPAChain {
-    address[] public quejasEmitidas;
-    function nuevaQueja(string memory descripcion) public {
-        address nQueja = address(new registraQueja(descripcion));
-        quejasEmitidas.push(nQueja);
+contract CAPAFactory {
+    address[] public contratos;
+    function registrarQueja(string memory _descripcion, string memory _nombre, string memory _correo, string memory _fecha) public {
+        address contrato = address(new Queja(_descripcion, _nombre, _correo, _fecha));
+        contratos.push(contrato);
     }
+    function listadoQuejas() public view returns (address[] memory) {
+        return contratos;
+    }
+
     function quejasRegistradas() public view returns (address[] memory) {
-        return quejasEmitidas;
+        return contratos;
     }
-
-    /*
-    function verQueja() public view  {
-
-    }
-    */
 }
-contract registraQueja {
-    struct Queja {
+
+contract Queja {
+
+    struct DatosQueja {
         address quienReporta;
+        string nombre;
+        string correo;
         string descripcion;
+        string fecha;
         bool cerrado;
     }
-    Queja[] public quejas;
-    address public usuario;
-    address public gerente;
-    //string public objetoCaso; // personal, area, proceso, etc..
-    //string public detalleObjCaso; // proceso X, area Y, personal Z, etc...
-    //string public tipoCuestion; //queja, reclamos, apelaciones, etc...
-    // string public descripcion; // que paso?
-
-    modifier restringido() {
-        require(msg.sender == gerente,"Sender not authorized.");
-        _;
-    }
-    constructor (string memory descripcion) public {
-        // 1. Fecha y naturaleza de la queja
-        usuario = msg.sender;
-        Queja memory nuevaQueja = Queja({
-            quienReporta : usuario,
-            descripcion : descripcion,
-            cerrado : false
+    DatosQueja[] public queja;
+    constructor(string memory _descripcion, string memory _nombre, string memory _correo, string memory _fecha) public {
+        DatosQueja memory nuevaQueja = DatosQueja({
+            quienReporta: msg.sender,
+            nombre: _nombre,
+            correo: _correo,
+            fecha: _fecha,
+            descripcion: _descripcion,
+            cerrado: false
         });
-        quejas.push(nuevaQueja);
+        queja.push(nuevaQueja);
     }
-    /*
-    function asignarCaso(uint index) public restringido {
-        // 2. A quien en QSI se le asigno el caso y cuando
-        //require()
-
-        Queja storage queja = quejas[index];
+    function verDetalle() public view returns (address, string memory, string memory, string memory, string memory) {
+        DatosQueja storage q = queja[0];
+        return (q.quienReporta,q.nombre,q.correo,q.fecha,q.descripcion);
     }
-    */
-    /*
-    function accionCausaMitigacion() {
-        // 3. La accion inmediata para tratar el problema.
-        // 4. El metodo, resultado y fecha de la investigación de causa.
-        // 5. La accion para mitigar la causa y su fecha.
-        // 6. Comentarios y fecha de cierre de la acción.
-    }
-    */
-    /*
-    function evaluacionEfectividad() {
-    }
-    */
 }
+
