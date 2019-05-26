@@ -3,7 +3,7 @@ import { Form, Message } from 'semantic-ui-react'
 import Layout from '../../components/Layout';
 import factory from '../../bc/factory';
 import web3 from '../../bc/web3';
-import { Router } from '../../routes';
+import { Link, Router } from '../../routes';
 
 const options = [
   { key: 'm', text: 'Male', value: 'male' },

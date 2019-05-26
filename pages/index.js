@@ -1,52 +1,39 @@
-import React, {Component} from 'react';
-import factory from '../bc/factory';
-import { Card, Button } from 'semantic-ui-react';
+import React from 'react'
+import { Button, Divider, Grid, Header, Icon, Search, Segment } from 'semantic-ui-react'
 import Layout from '../components/Layout';
 import { Link } from '../routes';
 
-class CAPAIndex extends Component {
-    static async getInitialProps() {
-        const quejas = await factory.methods.listadoQuejas().call();
+const SegmentExamplePlaceholderGrid = () => (
+<Layout>
+  <Segment placeholder>
+    <Grid columns={2} stackable textAlign='center'>
+      <Divider vertical>O</Divider>
 
-        return { quejas };
-    }
+      <Grid.Row verticalAlign='middle'>
+        <Grid.Column>
+          <Header icon>
+            <Icon name='search' />
+            Ver estatus de la queja
+          </Header>
 
-    renderQuejas() {
-        const items = this.props.quejas.map(address => {
-            return {
-                header: address,
-                description: (
-                    <Link route={`/queja/${address}`}>
-                        <a>Ver Queja</a>
-                    </Link>
-                ),
-                fluid: true
-            }
-        });
+          <Search placeholder='Ingrese codigo queja' />
+        </Grid.Column>
 
-        return <Card.Group items={items}/>
-    }
+        <Grid.Column>
+          <Header icon>
+            <Icon name='sticky note outline' />
+            Registrar Queja
+          </Header>
+          <Link route="/queja/nueva">
+            <a>
+            <Button primary>Registrar</Button>
+            </a>
+          </Link>
+        </Grid.Column>
+      </Grid.Row>
+    </Grid>
+  </Segment>
+  </Layout>
+)
 
-    render() {
-        return (
-        <Layout>
-            <div>
-                <h3>Quejas Abiertas</h3>
-                <Link route="/queja/nueva">
-                    <a>
-                    <Button
-                        floated="right"
-                        content="Registrar Queja"
-                        icon="add circle"
-                        primary
-                    />
-                    </a>
-                </Link>
-                {this.renderQuejas()}
-            </div>
-        </Layout>
-        )
-    }
-}
-
-export default CAPAIndex;
+export default SegmentExamplePlaceholderGrid

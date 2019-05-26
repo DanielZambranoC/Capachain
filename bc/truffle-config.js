@@ -51,7 +51,7 @@ module.exports = {
       gas: 5000000
     },
     ganache: {
-      host: "192.168.43.247",
+      host: "192.168.1.152",
       port: 7545,
       network_id: "*",       // Any network (default: none)
       gas: 5000000
