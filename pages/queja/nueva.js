@@ -18,7 +18,8 @@ class RegistroNuevaQueja extends Component {
       correo:'',
       fecha:'0000-00-00',
       errorMessage: '',
-      loading: false
+      loading: false,
+      quejaNro: ''
   };
  
   onSubmit = async (event) => {
@@ -27,14 +28,42 @@ class RegistroNuevaQueja extends Component {
     this.setState.loading = ({ loading: true, errorMessage: "" });
     
     try {
+        this.setState({ quejaNro: 'Procesando queja' });
     const accounts = await web3.eth.getAccounts();
+
     await factory.methods
         .registrarQueja(this.state.descripcion,this.state.nombre,this.state.correo,this.state.fecha)
         .send({
             from: accounts[0]
+        }).on('receipt', (receipt) => {
+            // receipt example
+            console.log(receipt);
+        })
+        .on('error', console.error); // If there's an out of gas error the second parameter is the receipt.
+        
+        /*
+        .on('receipt', function(receipt){
+            console.log(receipt);
+        })
+        */
+        /*
+        .then((receipt) => {
+            console.log(receipt);
         });
+        */
+        /*
+        .on('receipt', function(receipt){
+            console.log(receipt.events);
+            console.log(receipt.events[0].raw.data);
+        }).on('error', function(error){
+            console.log(error);
+        });
+        */
 
-        Router.pushRoute('/');
+
+
+        this.setState({ quejaNro: "Queja registrada bajo el numero..." });
+        //Router.pushRoute('/');
     } catch (err) {
         this.setState({ errorMessage: err.message });
     }
@@ -68,6 +97,10 @@ class RegistroNuevaQueja extends Component {
                     <p>{this.state.errorMessage}</p>
                 </Message>
                 <Form.Button loading={this.state.loading} primary>Enviar</Form.Button>
+                <Message info>
+                    <Message.Header>Datos de la queja</Message.Header>
+                    <p>{this.state.quejaNro}</p>
+                </Message>
             </Form>
       </Layout>
     )

@@ -20,12 +20,12 @@ export default class MenuExampleBasic extends Component {
         </Menu.Item>
         
         <Menu.Menu>
-          <Menu.Item position='right'> 
+          <Menu.Item> 
             <Input icon='search' placeholder='Buscar queja por codigo' />
           </Menu.Item>
         </Menu.Menu>
+        <Menu.Menu>
         <Menu.Item
-          position='right'
           name='listado'
           active={activeItem === 'listado'}
           onClick={this.handleItemClick}
@@ -34,24 +34,28 @@ export default class MenuExampleBasic extends Component {
               Listado de Quejas
           </Link>
         </Menu.Item>
+        </Menu.Menu>
+        <Menu.Menu>
         <Menu.Item
-          position='right'
-          name='locations'
-          active={activeItem === 'locations'}
+          name='quejas'
+          active={activeItem === 'quejas'}
           onClick={this.handleItemClick}
         >
           <Link route="/queja/nueva">
               Registrar Queja
           </Link>
         </Menu.Item>
+        </Menu.Menu>
+        <Menu.Menu position='right'>
         <Menu.Item
-          position='right'
+          
           name='aboutUs'
           active={activeItem === 'aboutUs'}
           onClick={this.handleItemClick}
         >
           <a href='https://nebusis.com'>Sobre nosotros</a>
         </Menu.Item>
+        </Menu.Menu>
       </Menu>
     )
   }
